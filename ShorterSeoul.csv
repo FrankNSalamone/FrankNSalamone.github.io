@@ -1,4 +1,5 @@
-﻿28/02/2018,19,19,2.5,95,1.9,838,1.7,0,0,0,Winter,No Holiday,Yes
+﻿Date,Rented Bike Count,Hour,Temperature(°C),Humidity(%),Wind speed (m/s),Visibility (10m),Dew point temperature(°C),Solar Radiation (MJ/m2),Rainfall(mm),Snowfall (cm),Seasons,Holiday,Functioning Day
+28/02/2018,19,19,2.5,95,1.9,838,1.7,0,0,0,Winter,No Holiday,Yes
 28/02/2018,8,20,2.7,96,1.5,1479,2.1,0,0,0,Winter,No Holiday,Yes
 28/02/2018,10,21,2.4,95,2.5,1349,1.6,0,9,0,Winter,No Holiday,Yes
 28/02/2018,13,22,2.3,96,1.9,1207,1.7,0,0,0,Winter,No Holiday,Yes
