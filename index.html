@@ -48,6 +48,8 @@
             text-align: center;
         }
 
+        .as-console-wrapper { max-height: 3.5em !important; }
+
     </style>
 </head>
 
@@ -66,7 +68,7 @@
     <p>
         more studd
     </p>
-    <button type="button">Learn About Turbocharging</button>
+    <button type="button">Learn About Turbharging</button>
     <h3>Diesel</h3>
     <p>
         more studd
@@ -77,11 +79,11 @@
         more studd
     </p>
     <button type="button">Learn About Body Styles</button>
-
-
 </div>
 
 <body>
+
+    
     <!-- Load d3.js -->
     <script src="https://d3js.org/d3.v6.js"></script>
 
@@ -92,7 +94,6 @@
         // Code references: https://d3-graph-gallery.com/graph/scatter_basic.html\
         //https://stackoverflow.com/questions/11189284/d3-axis-labeling
     
-        // Define the div for the tooltip
 
 
         // set the dimensions and margins of the graph
@@ -109,9 +110,10 @@
             .attr("transform", `translate(${margin.left}, ${margin.top})`);
     
         //Read the data
-        d3.csv("https://franknsalamone.github.io/autos_fixed.csv").then( function(data) {
+        //d3.csv("https://franknsalamone.github.io/autos_fixed.csv").then( function(data) {
         
-    
+        d3.csv("https://franknsalamone.github.io/autos_fixed.csv").then(function(data) {
+        d3.csv("https://franknsalamone.github.io/mtcars.csv").then (function(data2) {
         // Add X axis
         const x = d3.scaleLinear()
             .domain([40,340])
@@ -127,6 +129,21 @@
         svg.append("g")
             .call(d3.axisLeft(y));
 
+
+            var rect = d3.select('svg g rect');
+
+ rect.on('click', function() {
+   console.log('i was clicked');
+ });
+
+
+// <svg width="400" height="400">
+//   <g transform="translate(50,50)">
+//     <rect height="100" width="200" fill="red"/>
+//   </g>
+// </svg>
+
+        //Tooltip reference https://d3-graph-gallery.com/graph/scatter_tooltip.html
         const tooltip = d3.select("#my_dataviz")
             .append("div")
             .style("opacity", 0)
@@ -158,7 +175,6 @@
             .style("opacity", 0)
         }
 
-
          svg.append("text")
             .attr("class", "x label")
             .attr("text-anchor", "end")
@@ -174,7 +190,21 @@
             .attr("dy", "-3em")
             .attr("transform", "rotate(-90)")
             .text("Horsepower");
-    
+        
+
+        //Code reference: https://stackoverflow.com/questions/27009672/adding-a-button-to-a-g-element-using-d3
+        svg.append("rect")
+            .attr("width", 100)
+            .attr("height", 40)
+            .attr("x", 60)
+            .attr("y", 60)
+            .attr("fill",  "blue");
+
+        var rect = d3.select('svg g rect');
+            rect.on('click', function() {
+            console.log('i was clicked');
+        });
+
         // Add dots
         svg.append('g')
             .selectAll("dot")
@@ -184,6 +214,7 @@
                 .attr("cx", function (d) { return x(d.size); } )
                 .attr("cy", function (d) { return y(d.horsepower); } )
                 .attr("r", 7)
+                .attr("class", "80s")
                 .on("mouseover", mouseover )
                 .on("mousemove", mousemove )
                 .on("mouseleave", mouseleave )
@@ -198,13 +229,14 @@
                 .attr("stroke-width", 3)
                 .style("stroke", function (d) { 
                     if (d.type == 'dohc'){
-                        colorit = "yellow";
+                        colorit = "#24df1a";
                     }
                     else{
                         colorit = "";
                     }
                     return (colorit); })
         })
+    })
     </script>
 </body>
 </html>

@@ -1,0 +1,58 @@
+<!-- Load d3.js -->
+<script src="https://d3js.org/d3.v4.js"></script>
+
+<!-- Create a div where the graph will take place -->
+<div id="my_tip"></div>
+<div id="my_dataviz"></div>
+
+<script>
+
+d3.csv("cereal.csv", function(error, data) {
+
+var dateSlider = d3.select('#slider')
+  .call(d3.slider().axis(true).min(2006).max(2009).step(1)
+    .on("slide", function(evt, value) {
+      console.log(value);
+      dots.each(function(d) { 
+        this.style.display = value != d.Date ? "none" : "inline";
+      });
+    })
+  );
+
+// change string (from CSV) into number format
+data.forEach(function(d) {
+  d.Calories = +d.Calories;
+  d.Protein = +d.Protein;
+  d.Date = +d.Date;
+});
+
+// don't want dots overlapping axis, so add in buffer to data domain
+xScale.domain([d3.min(data, xValue)-1, d3.max(data, xValue)+1]);
+yScale.domain([d3.min(data, yValue)-1, d3.max(data, yValue)+1]);
+
+// x-axis
+svg.append("g")
+    .attr("class", "x axis")
+    .attr("transform", "translate(0," + height + ")")
+    .call(xAxis)
+
+// y-axis
+svg.append("g")
+    .attr("class", "y axis")
+    .call(yAxis)
+
+// draw dots
+var dots = svg.selectAll(".dot")
+    .data(data)
+  .enter().append("circle")
+    .attr("class", "dot")
+    .attr("r", 7)
+    .attr("cx", xMap)
+    .attr("cy", yMap)
+    .style("fill", "steelblue")
+    .on("mouseover", function(d) {    
+      console.log(d.Date);
+    });
+  });
+    
+    </script>
