@@ -94,7 +94,7 @@
         // Code references: https://d3-graph-gallery.com/graph/scatter_basic.html\
         //https://stackoverflow.com/questions/11189284/d3-axis-labeling
     
-
+        var seventies_on = false;
 
         // set the dimensions and margins of the graph
         const margin = {top: 50, right: 50, bottom: 50, left: 60},
@@ -107,7 +107,8 @@
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
             .append("g")
-            .attr("transform", `translate(${margin.left}, ${margin.top})`);
+            .attr("transform", `translate(${margin.left}, ${margin.top})`)
+            .attr("id", "mySVG") ;
     
         //Read the data
         d3.csv("https://franknsalamone.github.io/autos_fixed.csv").then( function(data) {
@@ -131,16 +132,6 @@
 
             var rect = d3.select('svg g rect');
 
- rect.on('click', function() {
-   console.log('i was clicked');
- });
-
-
-// <svg width="400" height="400">
-//   <g transform="translate(50,50)">
-//     <rect height="100" width="200" fill="red"/>
-//   </g>
-// </svg>
 
         //Tooltip reference https://d3-graph-gallery.com/graph/scatter_tooltip.html
         const tooltip = d3.select("#my_dataviz")
@@ -191,18 +182,51 @@
             .text("Horsepower");
         
 
-        //Code reference: https://stackoverflow.com/questions/27009672/adding-a-button-to-a-g-element-using-d3
+        //Code reference for buttons: https://stackoverflow.com/questions/27009672/adding-a-button-to-a-g-element-using-d3
         svg.append("rect")
-            .attr("width", 100)
+            .attr("width", 40)
             .attr("height", 40)
-            .attr("x", 60)
+            .attr("x", 30)
             .attr("y", 60)
-            .attr("fill",  "blue");
+            .attr("fill",  "#21908dff");
 
+        svg.append("text")
+            .attr("class", "add")
+            .text("Add 1970s")
+            .attr("x", 80)
+            .attr("y", 85)
+            .style("opacity", 1);
+        
+        svg.append("text")
+            .attr("class", "rem")
+            .text("Remove 1970s")
+            .attr("x", 80)
+            .attr("y", 85)
+            .style("opacity", 0);
+
+        //Code reference for selecting specific classes: https://d3-graph-gallery.com/graph/scatter_grouped_highlight.html
         var rect = d3.select('svg g rect');
             rect.on('click', function() {
-            console.log('i was clicked');
+            if (seventies_on == false){
+                d3.selectAll(".seventies")
+                    .style("fill-opacity", 1);
+                d3.select(".add")
+                    .style("opacity", 0);
+                d3.select(".rem")
+                    .style("opacity", 1);
+                seventies_on = true;
+            }
+            else{
+                d3.selectAll(".seventies")
+                    .style("fill-opacity", 0);
+                d3.select(".add")
+                    .style("opacity", 1);
+                d3.select(".rem")
+                    .style("opacity", 0);
+                seventies_on = false;
+            }
         });
+
 
         // Add dots
         svg.append('g')
@@ -210,31 +234,52 @@
             .data(data)
             .enter()
             .append("circle")
+                .attr("class", function(d){
+                    if (d.Decade == '80'){
+                         classit = "eighties";
+                    }
+                    else{
+                         classit = "seventies";
+                    }
+                    return (classit); 
+                })
                 .attr("cx", function (d) { return x(d.size); } )
                 .attr("cy", function (d) { return y(d.horsepower); } )
                 .attr("r", 7)
-                .attr("class", "80s")
                 .on("mouseover", mouseover )
                 .on("mousemove", mousemove )
                 .on("mouseleave", mouseleave )
                 .style("fill", function (d) { 
-                     if (d.aspiration == 'turbo'){
-                         colorit = "darkorange";
+                    //if (d.aspiration == 'turbo'){
+                     //    colorit = "#440154ff";
+                    //}
+                    //else{
+                    //     colorit = "#21908dff";
+                   // }
+                    if (d.Decade == "70"){
+                        colorit = "#21908dff"
                     }
                     else{
-                         colorit = "dodgerblue";
+                        colorit = "#440154ff"  
                     }
                     return (colorit); })
-                .attr("stroke-width", 3)
-                .style("stroke", function (d) { 
-                    if (d.type == 'dohc'){
-                        colorit = "#24df1a";
-                    }
-                    else{
-                        colorit = "";
-                    }
-                    return (colorit); })
+                // .attr("stroke-width", 3)
+                // .style("stroke", function (d) { 
+                //     if (d.type == 'dohc'){
+                //         colorit = "#fde725ff";
+                //     }
+                //     else{
+                //         colorit = "";
+                //     }
+                //     return (colorit); })
+               
+            //ode reference for opacity: https://stackoverflow.com/questions/15988455/how-can-i-change-the-radius-and-opacity-of-a-circle-in-d3
+            d3.selectAll(".seventies")
+                .style("fill-opacity", 0)
+                
         })
+  
+    
 
     </script>
 </body>
