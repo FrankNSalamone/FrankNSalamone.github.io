@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -120,7 +118,7 @@
  
         // Add X axis
         const x = d3.scaleLinear()
-            .domain([40,340])
+            .domain([5,60])
             .range([ 0, width ]);
         svg.append("g")
             .attr("transform", `translate(0, ${height})`)
@@ -128,7 +126,7 @@
     
         // Add Y axis
         const y = d3.scaleLinear()
-            .domain([20, 220])
+            .domain([20, 300])
             .range([ height, 0]);
         svg.append("g")
             .call(d3.axisLeft(y));
@@ -174,7 +172,7 @@
             .attr("text-anchor", "end")
             .attr("x", 40+((width)/2))
             .attr("y", height + 40)
-            .text("Displacement");
+            .text("MPG");
 
          svg.append("text")
             .attr("class", "y label")
@@ -190,21 +188,21 @@
         svg.append("rect")
             .attr("width", 40)
             .attr("height", 40)
-            .attr("x", 30)
+            .attr("x", 530)
             .attr("y", 60)
             .attr("fill",  "#21908dff");
 
         svg.append("text")
             .attr("class", "add")
             .text("Add 1970s")
-            .attr("x", 80)
+            .attr("x", 580)
             .attr("y", 85)
             .style("opacity", 1);
         
         svg.append("text")
             .attr("class", "rem")
             .text("Remove 1970s")
-            .attr("x", 80)
+            .attr("x", 580)
             .attr("y", 85)
             .style("opacity", 0);
 
@@ -239,48 +237,64 @@
             .enter()
             .append("circle")
                 .attr("class", function(d){
-                    if (d.Decade == '80'){
-                         classit = "eighties";
+                    classit = 'na';
+                    if (d.aspiration == 'turbo'){
+                         classit = "turbo";
                     }
-                    else{
-                         classit = "seventies";
+                    if (d.fuel == 'diesel'){
+                         classit = "diesel";
+                    }
+                    if (d.aspiration == 'turbo' && d.fuel == 'diesel'){
+                        classit = "turbodiesel"
                     }
                     return (classit); 
                 })
-                .attr("cx", function (d) { return x(d.size); } )
+                .attr("cx", function (d) { return x(d.highway); } )
                 .attr("cy", function (d) { return y(d.horsepower); } )
                 .attr("r", 7)
                 .on("mouseover", mouseover )
                 .on("mousemove", mousemove )
                 .on("mouseleave", mouseleave )
                 .style("fill", function (d) { 
-                    //if (d.aspiration == 'turbo'){
-                     //    colorit = "#440154ff";
-                    //}
-                    //else{
-                    //     colorit = "#21908dff";
-                   // }
-                    if (d.Decade == "70"){
-                        colorit = "#21908dff"
+                    colorit = '#fde725ff';   //yellow
+                 //   if (d.type == 'dohc'){
+                    //     colorit = "lightgreen";  //plumb
+                  //  }
+                    if (d.aspiration == 'turbo'){
+                         colorit = "#21908dff"; //green
                     }
-                    else{
-                        colorit = "#440154ff"  
+                    if (d.fuel == 'diesel'){
+                         colorit = "black";  //black
                     }
-                    return (colorit); })
-                // .attr("stroke-width", 3)
-                // .style("stroke", function (d) { 
-                //     if (d.type == 'dohc'){
-                //         colorit = "#fde725ff";
-                //     }
-                //     else{
-                //         colorit = "";
-                //     }
-                //     return (colorit); })
-               
-            //ode reference for opacity: https://stackoverflow.com/questions/15988455/how-can-i-change-the-radius-and-opacity-of-a-circle-in-d3
-            d3.selectAll(".seventies")
-                .style("fill-opacity", 0)
+                    if (d.aspiration == 'turbo' && d.fuel == 'diesel'){
+                        colorit = "maroon"
+                    }
+
+                    return (colorit); 
+                })
+
+                d3.selectAll("circle")
+                    .style("fill-opacity", 0);
+
                 
+                d3.selectAll(".na")
+                    .transition()
+                    .duration(2000)
+                    .style("fill-opacity", 1);
+
+                d3.selectAll(".diesel")
+                    .transition()
+                    .delay(2000)
+                    .duration(2000)
+                    .style("fill-opacity", 1);
+                
+                d3.selectAll(".turbodiesel")
+                    .transition()
+                    .delay(4000)
+                    .duration(2000)
+                    .style("fill-opacity", 1);
+
+            
         })
   
     
@@ -288,6 +302,3 @@
     </script>
 </body>
 </html>
-
-
-
