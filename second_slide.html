@@ -54,20 +54,12 @@
 
 
 <div class="right_textbar">
-    <h2>Introduction</h2>
-    <p>
-            With the introduction of emmission controls and the Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam dapibus id nisl ut suscipit. Nullam vel justo tellus. Suspendisse vehicula rhoncus nunc sed accumsan. In hac habitasse platea dictumst. Mauris vel dolor velit. Phasellus finibus massa mauris, at interdum nisl luctus at. Etiam porttitor, metus non dapibus pretium, orci arcu pretium nulla, eget congue augue libero at lectus. Mauris pretium urna tristique, laoreet enim rhoncus, euismod tortor. 
-    </p>
-    <h3>Fuel Efficiency</h3>
+
+    <h3>Engine Technology</h3>
     <p>
         more studd
     </p>
-    <button type="button" onclick="window.location.href='http://franknsalamone.github.io/second_slide.html'">Fuel Efficiency</button>
-    <h3>Induction Technology</h3>
-    <p>
-        more studd
-    </p>
-    <button type="button" onclick="window.location.href='http://franknsalamone.github.io/third_slide.html'">Induction Technology</button>
+    <button type="button" onclick="window.location.href='http://franknsalamone.github.io/third_slide.html'">Learn About Engine Technology</button>
     <h3>Body Styles</h3>
  
 </div>
@@ -178,21 +170,22 @@
         svg.append("rect")
             .attr("width", 40)
             .attr("height", 40)
-            .attr("x", 530)
+            .attr("x", 500)
             .attr("y", 60)
-            .attr("fill",  "#21908dff");
+            .attr("fill",  "#21908dff")
+            .attr('stroke', 'black');
 
         svg.append("text")
             .attr("class", "add")
-            .text("Add 1970s")
-            .attr("x", 580)
+            .text("Push to Add 1970s Data")
+            .attr("x", 550)
             .attr("y", 85)
             .style("opacity", 1);
         
         svg.append("text")
             .attr("class", "rem")
-            .text("Remove 1970s")
-            .attr("x", 580)
+            .text("Push to Remove 1970s Data")
+            .attr("x", 550)
             .attr("y", 85)
             .style("opacity", 0);
 

@@ -56,7 +56,9 @@
 
 <div class="post">  
     <h1>1985 A Critical Year In Automotive Technology</h1>
-    <p>The mid 1980s was a dynamic time of experimentation in automotive technology.  After the end of the muscle car era in the early 1970s due to pollution controls and oil embargoes, the automotive industry entered an era of malaise.  It took until the 1980s for technology to come to the rescue.  In this visualiztion, we will explore how technological advances are associated with increases in performance as measured by horespower and fuel efficency.</p>
+    <p>
+        The mid 1980s was a dynamic time of experimentation in automotive technology.  After the end of the muscle car era in the early 1970s due to pollution controls and oil embargoes, the automotive industry entered an era of malaise.  It took until the 1980s for technology to come to the rescue.  In this visualiztion, we will explore how technological advances are associated with increases in performance as measured by horespower and fuel efficency.
+    </p>
    </div>
 
 
@@ -65,19 +67,14 @@
 <div class="right_textbar">
     <h2>Introduction</h2>
     <p>
-            With the introduction of emmission controls and the Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam dapibus id nisl ut suscipit. Nullam vel justo tellus. Suspendisse vehicula rhoncus nunc sed accumsan. In hac habitasse platea dictumst. Mauris vel dolor velit. Phasellus finibus massa mauris, at interdum nisl luctus at. Etiam porttitor, metus non dapibus pretium, orci arcu pretium nulla, eget congue augue libero at lectus. Mauris pretium urna tristique, laoreet enim rhoncus, euismod tortor. 
+        Displacement is the amount of air fuel mixture the engine takes in.  It is the produt of the bore of the engine, it stroke, and the number of cylinders.  A measure of efficiency is how much horespower the engine can make given a particular displacement.  To the left, a graph of horsepower versus displacement is presented.  Cars from 1985 are represented as purple dots.  Each dot denotes a particular car.  Mouse over the dots to learn more about the individual cars.  Click on the button in the upper left of the graph to add cars from the 1970s.  Cars from the 1970s are represented by green dots.  Regression lines are plotted for each decade's cars.  Note that the cars from the 1980s get more horespower out of smaller displacements.  
     </p>
     <h3>Fuel Efficiency</h3>
     <p>
-        more studd
+        Fuel efficiency is another important metric of car performance. A more efficent car will get ore performance out of less fuel.
     </p>
-    <button type="button" onclick="window.location.href='http://franknsalamone.github.io/second_slide.html'">Fuel Efficiency</button>
-    <h3>Induction Technology</h3>
-    <p>
-        more studd
-    </p>
-    <button type="button" onclick="window.location.href='http://franknsalamone.github.io/third_slide.html'">Induction Technology</button>
-    <h3>Body Styles</h3>
+    <button type="button" onclick="window.location.href='http://franknsalamone.github.io/second_slide.html'">Learn About Fuel Efficiency</button>
+ 
 
 </div>
 
@@ -189,18 +186,19 @@
             .attr("height", 40)
             .attr("x", 30)
             .attr("y", 60)
-            .attr("fill",  "#21908dff");
+            .attr("fill",  "#21908dff")
+            .attr('stroke', 'black');
 
         svg.append("text")
             .attr("class", "add")
-            .text("Add 1970s Data")
+            .text("Push to Add 1970s Data")
             .attr("x", 80)
             .attr("y", 85)
             .style("opacity", 1);
         
         svg.append("text")
             .attr("class", "rem")
-            .text("Remove 1970s Data")
+            .text("Push to Remove 1970s Data")
             .attr("x", 80)
             .attr("y", 85)
             .style("opacity", 0);
@@ -210,7 +208,9 @@
             rect.on('click', function() {
             if (seventies_on == false){
                 d3.selectAll(".seventies")
-                    .style("fill-opacity", 1);
+                    .transition()
+                    .duration(2000)
+                    .style("opacity", 1);
                 d3.select(".add")
                     .style("opacity", 0);
                 d3.select(".rem")
@@ -219,7 +219,9 @@
             }
             else{
                 d3.selectAll(".seventies")
-                    .style("fill-opacity", 0);
+                    .transition()
+                    .duration(2000)
+                    .style("opacity", 0);
                 d3.select(".add")
                     .style("opacity", 1);
                 d3.select(".rem")
@@ -263,20 +265,30 @@
                     else{
                         colorit = "#440154ff"  
                     }
-                    return (colorit); })
-                // .attr("stroke-width", 3)
-                // .style("stroke", function (d) { 
-                //     if (d.type == 'dohc'){
-                //         colorit = "#fde725ff";
-                //     }
-                //     else{
-                //         colorit = "";
-                //     }
-                //     return (colorit); })
-               
+                    return (colorit); });
+
+            
+            svg.append('line')
+                .style("stroke", "#440154ff")
+                .style("stroke-width", 5)
+                .attr("x1", x(40))
+                .attr("y1", y(30.7796 + 6.6413))
+                .attr("x2", x(300))
+                .attr("y2", y(230.847 + 6.6413))
+                .attr("class", "seventies"); 
+
+            svg.append('line')
+                .style("stroke", "#21908dff")
+                .style("stroke-width", 5)
+                .attr("x1", x(40))
+                .attr("y1", y(17.5 + 45.7345))
+                .attr("x2", x(340))
+                .attr("y2", y(148.75 + 45.7345))
+                .attr("class", "seventies");
+
             //ode reference for opacity: https://stackoverflow.com/questions/15988455/how-can-i-change-the-radius-and-opacity-of-a-circle-in-d3
             d3.selectAll(".seventies")
-                .style("fill-opacity", 0)
+                .style("opacity", 0)
                 
         })
   
