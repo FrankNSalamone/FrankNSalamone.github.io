@@ -47,6 +47,33 @@
             text-align: center;
         }
 
+        .speech-bubble {
+            position: absolute;
+            top:10px;
+            left:190px;
+            background: rgb(56, 55, 55);
+            border-radius: .2em;
+            width:200px;
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+            color:white;
+        }
+
+        .speech-bubble:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 80%;
+            width: 0;
+            height: 0;
+            border: 20px solid transparent;
+            border-top-color: rgb(56, 55, 55);
+            border-bottom: 0;
+            margin-left: -15px;
+            margin-bottom: -15px;
+        }
+
         .as-console-wrapper { max-height: 3.5em !important; }
 
     </style>
@@ -75,6 +102,11 @@
 
     <!-- Create a div where the graph will take place -->
     <div id="my_dataviz" class = "box"></div>
+
+    <div class="speech-bubble">
+        <p>High Performace Cars</p>
+    </div>
+    
 
     <script>
         // https://stackoverflow.com/questions/13425833/how-can-i-change-the-pages-url-when-a-visitor-clicks-a-button
@@ -197,6 +229,8 @@
             rect.on('click', function() {
             if (seventies_on == false){
                 d3.selectAll(".seventies")
+                    .transition()
+                    .duration(2000)
                     .style("fill-opacity", 1);
                 d3.select(".add")
                     .style("opacity", 0);
@@ -206,6 +240,8 @@
             }
             else{
                 d3.selectAll(".seventies")
+                    .transition()
+                    .duration(2000)
                     .style("fill-opacity", 0);
                 d3.select(".add")
                     .style("opacity", 1);
@@ -238,12 +274,6 @@
                 .on("mousemove", mousemove )
                 .on("mouseleave", mouseleave )
                 .style("fill", function (d) { 
-                    //if (d.aspiration == 'turbo'){
-                     //    colorit = "#440154ff";
-                    //}
-                    //else{
-                    //     colorit = "#21908dff";
-                   // }
                     if (d.Decade == "70"){
                         colorit = "#21908dff"
                     }
@@ -251,17 +281,8 @@
                         colorit = "#440154ff"  
                     }
                     return (colorit); })
-                // .attr("stroke-width", 3)
-                // .style("stroke", function (d) { 
-                //     if (d.type == 'dohc'){
-                //         colorit = "#fde725ff";
-                //     }
-                //     else{
-                //         colorit = "";
-                //     }
-                //     return (colorit); })
                
-            //ode reference for opacity: https://stackoverflow.com/questions/15988455/how-can-i-change-the-radius-and-opacity-of-a-circle-in-d3
+            //Code reference for opacity: https://stackoverflow.com/questions/15988455/how-can-i-change-the-radius-and-opacity-of-a-circle-in-d3
             d3.selectAll(".seventies")
                 .style("fill-opacity", 0)
                 
