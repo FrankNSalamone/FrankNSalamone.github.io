@@ -46,6 +46,16 @@
             text-align: center;
         }
 
+        datalist {
+             display: flex;
+            justify-content: space-between;
+            width: 55%;
+        }
+
+        input {
+            width: 50%;
+        }
+
         .as-console-wrapper { max-height: 3.5em !important; }
 
     </style>
@@ -60,7 +70,7 @@
     <p>
         more stud
     </p>
-    <button type="button" onclick="window.location.href='http://franknsalamone.github.io/index.html'">Return to Beginning</button>
+    <button type="button" onclick="window.location.href='http://franknsalamone.github.io/index.html'">Return to First Scene</button>
  
 </div>
 
@@ -69,6 +79,16 @@
     
     <!-- Load d3.js -->
     <script src="https://d3js.org/d3.v6.js"></script>
+
+    <!--Code reference for slider:  https://d3-graph-gallery.com/graph/density_slider.html -->
+    <!-- Add a slider -->
+    <input type="range" name="mySlider" id=mySlider min="0" max="3" value="0" list="tickmarks">
+    <datalist id="tickmarks">
+        <option value="0" label="All Cars"></option>
+        <option value="1" label="Domestic Cars"></option>
+        <option value="2" label="Japanese Cars"></option>
+        <option value="2" label="European Cars"></option>
+      </datalist>
 
     <!-- Create a div where the graph will take place -->
     <div id="my_dataviz" class = "box"></div>
@@ -236,8 +256,9 @@
                     if (d.aspiration == 'turbo' && d.fuel == 'diesel'){
                         classit = "turbodiesel"
                     }
-                    return (classit); 
+                    return (classit + " " + d.origin); 
                 })
+                //.attr("class", function(d){return (d.origin);})
                 .attr("cx", function (d) { return x(d.highway); } )
                 .attr("cy", function (d) { return y(d.horsepower); } )
                 .attr("r", 7)
@@ -259,34 +280,72 @@
                     return (colorit); 
                 })
 
-                d3.selectAll("circle")
-                    .style("fill-opacity", 0);
+        d3.selectAll("circle")
+             .style("fill-opacity", 0);
 
-                d3.selectAll(".na")
-                    .transition()
-                    .duration(2000)
-                    .style("fill-opacity", 1);
+         d3.selectAll(".na")
+            .transition()
+            .duration(2000)
+            .style("fill-opacity", 1);
                 
-                d3.selectAll(".turbo")
-                    .transition()
-                    .delay(2000)
-                    .duration(2000)
-                    .style("fill-opacity", 1);
+        d3.selectAll(".turbo")
+            .transition()
+            .delay(2000)
+            .duration(2000)
+            .style("fill-opacity", 1);
 
-                d3.selectAll(".diesel")
-                    .transition()
-                    .delay(4000)
-                    .duration(2000)
-                    .style("fill-opacity", 1);
-                
-                d3.selectAll(".turbodiesel")
-                    .transition()
-                    .delay(6000)
-                    .duration(2000)
-                    .style("fill-opacity", 1);
+        d3.selectAll(".diesel")
+            .transition()
+            .delay(4000)
+            .duration(2000)
+            .style("fill-opacity", 1);
+               
+        d3.selectAll(".turbodiesel")
+            .transition()
+            .delay(6000)
+            .duration(2000)
+            .style("fill-opacity", 1);
+
+        // Listen to the slider?
+        d3.select("#mySlider").on("change", function(d){
+            selectedValue = this.value
+            if(selectedValue == 1){
+                d3.selectAll(".j")
+                    .style("fill-opacity", 0)
+                d3.selectAll(".e")
+                    .style("fill-opacity", 0)
+                d3.selectAll(".d")
+                    .style("fill-opacity", 1)
+            }
+            if(selectedValue == 2){
+                d3.selectAll(".e")
+                    .style("fill-opacity", 0)
+                d3.selectAll(".d")
+                    .style("fill-opacity", 0)
+                d3.selectAll(".j")
+                    .style("fill-opacity", 1)
+            }
+            if(selectedValue == 3){
+                d3.selectAll(".j")
+                    .style("fill-opacity", 0)
+                d3.selectAll(".d")
+                    .style("fill-opacity", 0)
+                d3.selectAll(".e")
+                    .style("fill-opacity", 1)
+            }
+            if(selectedValue == 0){
+                d3.selectAll(".d")
+                    .style("fill-opacity", 1)
+                d3.selectAll(".j")
+                    .style("fill-opacity", 1)
+                d3.selectAll(".e")
+                    .style("fill-opacity", 1)
+            }
+            console.log(selectedValue)
+        })
 
             
-        })
+    })
   
     
 
