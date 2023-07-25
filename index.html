@@ -35,13 +35,13 @@
 
         .post p{
             max-width: 5000px;
-            padding: .5em;
+            padding: 0em;
             text-align: justify;
             margin: 0;
             top: 1.25em;
         }
 
-        .post h1{
+        .post h2{
             text-align: center;
         }
 
@@ -62,7 +62,7 @@
 
 
 <div class="post">  
-    <h1>1985 A Critical Year In Automotive Technology</h1>
+    <h2>1985 A Critical Year In Automotive Technology</h2>
     <p>
         The mid 1980s was a dynamic time of experimentation in automotive technology.  After the end of the muscle car era in the early 1970s due to pollution controls and oil embargoes, the automotive industry entered an era of malaise.  It took until the 1980s for technology to come to the rescue.  In this visualiztion, we will explore how technological advances are associated with increases in performance as measured by horespower and fuel efficency.
     </p>
@@ -107,22 +107,28 @@
         // https://d3-graph-gallery.com/graph/scatter_basic.html\
         // https://stackoverflow.com/questions/11189284/d3-axis-labeling
         
-
         /*
-
             STATE VARIABLES
-
+                The user can select if they want to display data from 1970s cars in addition to the 1980s cars data that is always displayed.  
+                If seventies_on is true, the seventies data is displayed.
+                The origin state variable is 0 when all cars are displayed, 1 if just domestic cars are displayed, 2 if just Japanese cars
+                are displayed, and 3 if European cars are displayed.  The user can select which cars to display based on country of origin.
         */
+
         var seventies_on = false;
         var origin = 0;
 
-        // set the dimensions and margins of the graph
+        /*
+            SET UP THE CHART
+        */
+
+        // Set the dimensions and margins of the graph
         // From d3 graph gallery above (scatterplot) 
         const margin = {top: 50, right: 50, bottom: 50, left: 60},
             width = 800 - margin.left - margin.right,
             height = 800 - margin.top - margin.bottom;
     
-        // append the svg object to the body of the page
+        // Append the svg object to the body of the page
         // From d3 graph gallery above (scatterplot) 
         const svg = d3.select("#my_dataviz")
             .append("svg")
@@ -132,10 +138,9 @@
             .attr("transform", `translate(${margin.left}, ${margin.top})`)
             .attr("id", "mySVG") ;
     
-        //Read the data
+        // Read the automobile data
         d3.csv("https://franknsalamone.github.io/autos_fixed.csv").then( function(data) {
         
- 
         // Add X axis
         const x = d3.scaleLinear()
             .domain([0,400])
@@ -151,11 +156,30 @@
         svg.append("g")
             .call(d3.axisLeft(y));
 
+        // Add axis labels    
+        svg.append("text")
+            .attr("class", "x label")
+            .attr("text-anchor", "end")
+            .attr("x", 40+((width)/2))
+            .attr("y", height + 40)
+            .text("Displacement");
 
-            var rect = d3.select('svg g rect');
+         svg.append("text")
+            .attr("class", "y label")
+            .attr("text-anchor", "end")
+            .attr("y", 6)
+            .attr("x", "-20em")
+            .attr("dy", "-3em")
+            .attr("transform", "rotate(-90)")
+            .text("Horsepower");
+        
+        /*
+            SET UP THE TOOLTIPS
+                The user can mouse over the points in the chart to reveal the make of the particular car via a tooltip.  This provides interactivity.  The trigger
+                to display the tooltip is mousing over the pont.  These functions are event handlers.
+        */
 
-
-        //Tooltip reference https://d3-graph-gallery.com/graph/scatter_tooltip.html
+        // Tooltip reference https://d3-graph-gallery.com/graph/scatter_tooltip.html
         const tooltip = d3.select("#my_dataviz")
             .append("div")
             .style("opacity", 0)
@@ -187,24 +211,13 @@
             .style("opacity", 0)
         }
 
-         svg.append("text")
-            .attr("class", "x label")
-            .attr("text-anchor", "end")
-            .attr("x", 40+((width)/2))
-            .attr("y", height + 40)
-            .text("Displacement");
+        /*
+            ADD A BUTTON
+                In the code below, I add a button to toggle between displaying the 1970s cars data and not.  Pressing this toggle changes the STATE of the 
+                visualization by altering the seventies_on variable
+        */
 
-         svg.append("text")
-            .attr("class", "y label")
-            .attr("text-anchor", "end")
-            .attr("y", 6)
-            .attr("x", "-20em")
-            .attr("dy", "-3em")
-            .attr("transform", "rotate(-90)")
-            .text("Horsepower");
-        
-
-        //Code reference for buttons: https://stackoverflow.com/questions/27009672/adding-a-button-to-a-g-element-using-d3
+        // Code reference for buttons: https://stackoverflow.com/questions/27009672/adding-a-button-to-a-g-element-using-d3
         svg.append("rect")
             .attr("width", 40)
             .attr("height", 40)
@@ -227,25 +240,10 @@
             .attr("y", 85)
             .style("opacity", 0);
 
-        svg.append('line')
-            .attr("class", "seventies")
-            .style("stroke", "black")
-            .style("stroke-width", 3)
-            .attr("x1", 450)
-            .attr("y1", 60)
-            .attr("x2", 550)
-            .attr("y2", 20); 
-
-        svg.append("text")
-            .attr("class", "annot")
-            .text("1980s, Higher HP/Disp")
-            .attr("x", 550)
-            .attr("y", 20)
-            .style("opacity", 0);
-
-
-
-        //Code reference for selecting specific classes: https://d3-graph-gallery.com/graph/scatter_grouped_highlight.html
+        // This code handles the trigger to display 1970s data, and change the seventies_on state variable.  It is an event handler
+        // for clicks on the toggle switch.
+        // This code makes sure that the correct elements are displayed based on state.  
+        // Code reference for selecting specific classes: https://d3-graph-gallery.com/graph/scatter_grouped_highlight.html
         var rect = d3.select('svg g rect');
             rect.on('click', function() {
             if (seventies_on == false){
@@ -308,6 +306,57 @@
             }
         });
 
+        /*
+            ADD AN ANNOTATION
+                In the code below, I add an annotation that explains the trend lines that appear when the user displays 1970s data.
+        */
+
+        // Annotation line 
+        svg.append('line')
+            .attr("class", "seventies")
+            .style("stroke", "black")
+            .style("stroke-width", 3)
+            .attr("x1", 450)
+            .attr("y1", 60)
+            .attr("x2", 550)
+            .attr("y2", 20);
+
+        // Annotation text
+        svg.append("text")
+            .attr("class", "annot")
+            .text("1980s, Higher HP/Disp")
+            .attr("x", 550)
+            .attr("y", 20)
+            .style("opacity", 0);
+
+        /*
+            TREND LINES
+                These lines appear when the user displays 1970s data.
+        */
+
+        svg.append('line')
+                .style("stroke", "#440154ff")
+                .style("stroke-width", 5)
+                .attr("x1", x(40))
+                .attr("y1", y(30.7796 + 6.6413))
+                .attr("x2", x(250))
+                .attr("y2", y(192.3725 + 6.6413))
+                .attr("class", "seventies"); 
+
+        svg.append('line')
+                .style("stroke", "#21908dff")
+                .style("stroke-width", 5)
+                .attr("x1", x(40))
+                .attr("y1", y(17.5 + 45.7345))
+                .attr("x2", x(340))
+                .attr("y2", y(148.75 + 45.7345))
+                .attr("class", "seventies");
+
+        /*
+            CREATE CHART
+                Use d3 to add all of the points of the chart.  Dots are assigned to the appropriate classes so that they can be hidden and revealed at the
+                appropriate times.  The event handler code is attached.  This is similar to the scatterplot example in the d3 example code.  
+        */
 
         // Add dots
         svg.append('g')
@@ -337,26 +386,14 @@
                     else{
                         colorit = "#440154ff"  
                     }
+        
                     return (colorit); });
 
-            
-            svg.append('line')
-                .style("stroke", "#440154ff")
-                .style("stroke-width", 5)
-                .attr("x1", x(40))
-                .attr("y1", y(30.7796 + 6.6413))
-                .attr("x2", x(250))
-                .attr("y2", y(192.3725 + 6.6413))
-                .attr("class", "seventies"); 
-
-            svg.append('line')
-                .style("stroke", "#21908dff")
-                .style("stroke-width", 5)
-                .attr("x1", x(40))
-                .attr("y1", y(17.5 + 45.7345))
-                .attr("x2", x(340))
-                .attr("y2", y(148.75 + 45.7345))
-                .attr("class", "seventies");
+        /*
+            CREATE SLIDER
+                This slider allows the user to display cars of only a certain national origin.  This allows interactivity, changes the state of the visualization as 
+                stored in the origin parameter, and is triggered by mouse input.  
+        */
 
         d3.select("#mySlider").on("change", function(d){
             origin = this.value
@@ -399,11 +436,12 @@
         })
                
 
-            //ode reference for opacity: https://stackoverflow.com/questions/15988455/how-can-i-change-the-radius-and-opacity-of-a-circle-in-d3
-            d3.selectAll(".seventies")
-                .style("opacity", 0)
+        // Code reference for opacity: https://stackoverflow.com/questions/15988455/how-can-i-change-the-radius-and-opacity-of-a-circle-in-d3
+        // We want to start the visualization with the seventies data not displayed.
+        d3.selectAll(".seventies")
+            .style("opacity", 0)
                 
-        })
+    })
   
     
 
