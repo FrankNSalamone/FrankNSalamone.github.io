@@ -86,6 +86,8 @@
         
     <!-- Load d3.js -->
     <script src="https://d3js.org/d3.v6.js"></script>
+    <!-- Load d3-annotation -->
+    <script src="https://rawgit.com/susielu/d3-annotation/master/d3-annotation.min.js"></script>
 
     <!--Code reference for slider:  https://d3-graph-gallery.com/graph/density_slider.html -->
     <!-- Add a slider -->
@@ -311,23 +313,47 @@
                 In the code below, I add an annotation that explains the trend lines that appear when the user displays 1970s data.
         */
 
-        // Annotation line 
-        svg.append('line')
-            .attr("class", "seventies")
-            .style("stroke", "black")
-            .style("stroke-width", 3)
-            .attr("x1", 450)
-            .attr("y1", 60)
-            .attr("x2", 550)
-            .attr("y2", 20);
+        // Features of the annotation
+        //Code reference: https://d3-annotation.susielu.com/#examples
+        const annotations = [
+            {note: {
+                    title: "'70s, Lower HP/Disp"
+                },
+            color: ['black'], 
+            x: 550,
+            y: 120,
+            dy: 70,
+            dx: 50}
+         ]
 
-        // Annotation text
-        svg.append("text")
-            .attr("class", "annot")
-            .text("1980s, Higher HP/Disp")
-            .attr("x", 550)
-            .attr("y", 20)
-            .style("opacity", 0);
+        // Features of the annotation
+        const annotations2 = [
+            
+            {note: {
+                    title: "Each Dot is An Individual Car"
+                },
+            color: ['black'], 
+            x: 403,
+            y: 227,
+            dy: 100,
+            dx: 100}
+        ]  
+
+        // Add annotation to the chart
+        const makeAnnotations = d3.annotation()
+            .annotations(annotations)
+
+  
+        svg.append("g")
+            .attr("class", "seventies")
+            .call(makeAnnotations)
+
+        const makeAnnotations2 = d3.annotation()
+            .annotations(annotations2)
+  
+        svg.append("g")
+            .attr("class", "e") 
+            .call(makeAnnotations2)
 
         /*
             TREND LINES
@@ -401,13 +427,13 @@
                 d3.selectAll(".j")
                     .style("fill-opacity", 0)
                 d3.selectAll(".e")
-                    .style("fill-opacity", 0)
+                    .style("opacity", 0)
                 d3.selectAll(".d")
                     .style("fill-opacity", 1)
             }
             if(origin == 2){
                 d3.selectAll(".e")
-                    .style("fill-opacity", 0)
+                    .style("opacity", 0)
                 d3.selectAll(".d")
                     .style("fill-opacity", 0)
                 d3.selectAll(".j")
@@ -419,6 +445,7 @@
                 d3.selectAll(".d")
                     .style("fill-opacity", 0)
                 d3.selectAll(".e")
+                    .style("opacity", 1)
                     .style("fill-opacity", 1)
             }
             if(origin == 0){
@@ -427,14 +454,14 @@
                 d3.selectAll(".j")
                     .style("fill-opacity", 1)
                 d3.selectAll(".e")
+                    .style("opacity", 1)
                     .style("fill-opacity", 1)
             }
             if (seventies_on == false){
                 d3.selectAll(".seventies")
-                    .style("fill-opacity", 0)
+                    .style("opacity", 0)
             }
         })
-               
 
         // Code reference for opacity: https://stackoverflow.com/questions/15988455/how-can-i-change-the-radius-and-opacity-of-a-circle-in-d3
         // We want to start the visualization with the seventies data not displayed.
