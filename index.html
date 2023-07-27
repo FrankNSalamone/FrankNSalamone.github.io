@@ -200,7 +200,9 @@
 
         const mousemove = function(event, d) {
             tooltip
-            .html(`Make: ${d.make}`)
+            .html(`Make: ${d.make} 
+                \n Cylinders: ${d.cyl}
+                \n Valvetrain: ${d.type}`)
             .style("left", (event.x)/2 + "px") // It is important to put the +90: other wise the tooltip is exactly where the point is an it creates a weird effect
             .style("top", (event.y)/2 + "px")
         }
