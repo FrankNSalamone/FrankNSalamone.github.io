@@ -153,7 +153,7 @@
     
         // Add Y axis
         const y = d3.scaleLinear()
-            .domain([20, 220])
+            .domain([20, 350])
             .range([ height, 0]);
         svg.append("g")
             .call(d3.axisLeft(y));
@@ -323,7 +323,7 @@
                 },
             color: ['black'], 
             x: 550,
-            y: 120,
+            y: 350,
             dy: 70,
             dx: 50}
          ]
@@ -335,9 +335,17 @@
                     title: "Each Dot is An Individual Car"
                 },
             color: ['black'], 
-            x: 403,
-            y: 227,
+            x: 320,
+            y: 487,
             dy: 100,
+            dx: 100},
+            {note: {
+                    title: "Porsche  928 288HP 203CI"
+                },
+            color: ['black'], 
+            x: 346,
+            y: 135,
+            dy: -30,
             dx: 100}
         ]  
 

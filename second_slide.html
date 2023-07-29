@@ -83,6 +83,8 @@
     
     <!-- Load d3.js -->
     <script src="https://d3js.org/d3.v6.js"></script>
+    <script src="https://rawgit.com/susielu/d3-annotation/master/d3-annotation.min.js"></script>
+
 
     <!--Code reference for slider:  https://d3-graph-gallery.com/graph/density_slider.html -->
     <!-- Add a slider -->
@@ -135,7 +137,7 @@
     
         // Add Y axis
         const y = d3.scaleLinear()
-            .domain([20, 300])
+            .domain([20, 350])
             .range([ height, 0]);
         svg.append("g")
             .call(d3.axisLeft(y));
@@ -193,6 +195,8 @@
             .attr("dy", "-3em")
             .attr("transform", "rotate(-90)")
             .text("Horsepower");
+
+
         
 
         //Code reference for buttons: https://stackoverflow.com/questions/27009672/adding-a-button-to-a-g-element-using-d3
@@ -276,6 +280,7 @@
             }
         });
 
+        
 
         // Add dots
         svg.append('g')
